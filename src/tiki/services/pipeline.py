@@ -15,7 +15,8 @@ class EnrichmentPipeline:
     def __init__(self):
         self.tika_service = TikaService()
         self.dcat_builder = DCATBuilder()
-        self._claude_enabled = bool(settings.ANTHROPIC_API_KEY)
+        key = (settings.ANTHROPIC_API_KEY or "").strip()
+        self._claude_enabled = len(key) > 20 and key.startswith("sk-ant-")
         if self._claude_enabled:
             self.claude_service = ClaudeService()
 
