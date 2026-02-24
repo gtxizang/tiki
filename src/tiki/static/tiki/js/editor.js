@@ -64,20 +64,18 @@ function displayEmptyFields(data) {
                 ? buildLicenceSelect(currentValue)
                 : buildTextInput(field, label, currentValue);
 
-            var savedIndicator = currentValue
-                ? '<span class="text-xs" style="color: var(--colour-text-muted);">Saved</span>'
-                : '';
+            var btnLabel = currentValue ? "Saved" : "Save";
+            var btnStyle = currentValue
+                ? "background: var(--colour-bg-secondary); color: var(--colour-text-muted); border: 1px solid var(--colour-border);"
+                : "background: var(--colour-link); color: white;";
 
             return '<div class="flex items-center gap-3 mb-3">' +
-                '<label class="text-sm font-medium min-w-36" style="color: var(--colour-text);">' +
+                '<label class="text-sm font-medium min-w-36 shrink-0" style="color: var(--colour-text);">' +
                 label + '</label>' +
                 inputHtml +
                 '<button onclick="saveField(this, \'' + field + '\')" ' +
-                'class="px-4 py-2 text-sm font-medium text-white rounded transition-colors" ' +
-                'style="background: var(--colour-link);" ' +
-                'onmouseover="this.style.background=\'var(--colour-link-hover)\'" ' +
-                'onmouseout="this.style.background=\'var(--colour-link)\'">Save</button>' +
-                savedIndicator +
+                'class="px-4 py-2 text-sm font-medium rounded transition-colors shrink-0" ' +
+                'style="' + btnStyle + '">' + btnLabel + '</button>' +
                 '</div>';
         })
         .join("");

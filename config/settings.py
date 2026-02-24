@@ -133,6 +133,7 @@ CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-20250514")
 
 LABS_PROJECT_NAME = "Tiki"
 LABS_PROJECT_SLUG = "tiki"
+LABS_HUB_URL = "https://derilinx-labs.regexflow.com"
 LABS_GITHUB_URL = "https://github.com/gtxizang/tiki"
 LABS_PRODUCT_PAGE = ""
 
