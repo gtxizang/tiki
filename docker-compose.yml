@@ -2,9 +2,9 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_DB: tiki
-      POSTGRES_USER: tiki
-      POSTGRES_PASSWORD: tiki
+      POSTGRES_DB: ${POSTGRES_DB:-tiki}
+      POSTGRES_USER: ${POSTGRES_USER:-tiki}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tiki}
     ports:
       - "5437:5432"
     volumes:
@@ -16,7 +16,10 @@ services:
       - "9998:9998"
 
   web:
-    build: .
+    build:
+      context: .
+      secrets:
+        - github_token
     ports:
       - "8106:8106"
     depends_on:
@@ -37,3 +40,8 @@ services:
 volumes:
   pgdata:
   media:
+  
+secrets:
+  github_token:
+    # host path (on your VM) containing the GitHub token
+    file: /etc/secrets/github_token
