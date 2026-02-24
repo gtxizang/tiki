@@ -1,0 +1,22 @@
+:root {
+    --tiki-coral: #FF6B5A;
+    --tiki-coral-light: #FF8A7D;
+    --tiki-coral-dark: #E84D3D;
+    --tiki-sunset: #FF9A6C;
+    --tiki-sunset-light: #FFB894;
+    --tiki-sunset-dark: #E87E4E;
+    --tiki-warm-white: #FFF8F5;
+    --tiki-warm-gray: #F5F0ED;
+    --tiki-text: #2D2926;
+    --tiki-text-muted: #6B6462;
+    --tiki-border: #E0D8D4;
+    --tiki-success: #4CAF50;
+    --tiki-error: #E53935;
+    --tiki-info: #1E88E5;
+    --tiki-radius: 8px;
+    --tiki-radius-lg: 12px;
+    --tiki-shadow: 0 2px 8px rgba(45, 41, 38, 0.08);
+    --tiki-shadow-lg: 0 8px 24px rgba(45, 41, 38, 0.12);
+    --tiki-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --tiki-font-mono: "SF Mono", "Fira Code", "Fira Mono", monospace;
+}

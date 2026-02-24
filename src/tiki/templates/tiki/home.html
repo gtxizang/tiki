@@ -1,0 +1,39 @@
+{% extends "tiki/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Tiki</h1>
+        <p>Upload a file to generate DCAT-AP metadata</p>
+    </div>
+
+    {% include "tiki/partials/_upload_zone.html" %}
+
+    <div class="progress-bar">
+        <div class="progress-bar__track">
+            <div class="progress-bar__fill"></div>
+        </div>
+        <div class="progress-bar__status">Uploading...</div>
+    </div>
+
+    <div class="error-message"></div>
+
+    <div class="result-section">
+        {% include "tiki/partials/_summary.html" %}
+
+        <div class="empty-fields">
+            <h3>Required Fields</h3>
+            <div id="empty-fields"></div>
+        </div>
+
+        {% include "tiki/partials/_jsonld.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'tiki/js/jsonld.js' %}"></script>
+<script src="{% static 'tiki/js/editor.js' %}"></script>
+<script src="{% static 'tiki/js/upload.js' %}"></script>
+{% endblock %}
