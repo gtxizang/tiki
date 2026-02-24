@@ -9,7 +9,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN --mount=type=secret,id=github_token \
+    sh -lc 'TOKEN="$(cat /run/secrets/github_token)" && \
+    git config --global url."https://${TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/" && \
+    pip install --no-cache-dir -r requirements.txt && \
+    # scrub token-bearing git config from the layer
+    rm -f /root/.gitconfig /root/.config/git/config 2>/dev/null || true'
 
 COPY . .
 
