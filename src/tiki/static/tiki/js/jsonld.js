@@ -1,87 +1,79 @@
 /* JSON-LD display, copy, and download */
 
 function displayJsonLd(data) {
-    const codeEl = document.getElementById("jsonld-output");
+    var codeEl = document.getElementById("jsonld-output");
     if (!codeEl || !data.jsonld) return;
     codeEl.textContent = JSON.stringify(data.jsonld, null, 2);
 }
 
 function displaySummary(data) {
-    const container = document.getElementById("summary-content");
+    var container = document.getElementById("summary-content");
     if (!container || !data.jsonld) return;
 
-    const dataset = data.jsonld["@graph"]?.[0] || data.jsonld;
-
-    const items = [];
+    var dataset = data.jsonld["@graph"] ? data.jsonld["@graph"][0] : data.jsonld;
+    var items = [];
 
     if (dataset["dct:title"]) {
         items.push(["Title", dataset["dct:title"]]);
     }
-
     if (dataset["dct:description"]) {
-        const desc = dataset["dct:description"];
+        var desc = dataset["dct:description"];
         items.push(["Description", desc.length > 150 ? desc.slice(0, 150) + "..." : desc]);
     }
-
     if (dataset["dct:language"]) {
         items.push(["Language", dataset["dct:language"]]);
     }
-
-    if (dataset["dct:creator"]?.["foaf:name"]) {
+    if (dataset["dct:creator"] && dataset["dct:creator"]["foaf:name"]) {
         items.push(["Creator", dataset["dct:creator"]["foaf:name"]]);
     }
-
-    const distribution = dataset["dcat:distribution"]?.[0];
-    if (distribution) {
-        if (distribution["dcat:mediaType"]) {
-            items.push(["Media Type", distribution["dcat:mediaType"]]);
-        }
+    var distribution = dataset["dcat:distribution"] ? dataset["dcat:distribution"][0] : null;
+    if (distribution && distribution["dcat:mediaType"]) {
+        items.push(["Media Type", distribution["dcat:mediaType"]]);
     }
 
     container.innerHTML = items
-        .map(
-            ([label, value]) => `
-        <div class="summary-item">
-            <span class="summary-item__label">${label}</span>
-            <span class="summary-item__value">${value}</span>
-        </div>
-    `
-        )
+        .map(function (pair) {
+            return '<div class="flex justify-between py-2 border-b" style="border-color: var(--colour-border);">' +
+                '<span class="text-sm font-medium" style="color: var(--colour-text);">' + pair[0] + '</span>' +
+                '<span class="text-sm text-right max-w-[60%]" style="color: var(--colour-text-muted);">' + pair[1] + '</span>' +
+                '</div>';
+        })
         .join("");
 
     // Keywords
-    const keywords = dataset["dcat:keyword"] || [];
+    var keywords = dataset["dcat:keyword"] || [];
     if (keywords.length > 0) {
-        container.innerHTML += `
-            <div class="summary-item" style="flex-direction: column; gap: 0.5rem;">
-                <span class="summary-item__label">Keywords</span>
-                <div class="tag-list">
-                    ${keywords.map((k) => `<span class="tag">${k}</span>`).join("")}
-                </div>
-            </div>
-        `;
+        container.innerHTML +=
+            '<div class="pt-3">' +
+            '<span class="text-sm font-medium" style="color: var(--colour-text);">Keywords</span>' +
+            '<div class="flex flex-wrap gap-2 mt-2">' +
+            keywords.map(function (k) {
+                return '<span class="inline-block px-3 py-1 text-xs rounded-full" ' +
+                    'style="background: var(--colour-bg-secondary); color: var(--colour-text-muted);">' + k + '</span>';
+            }).join("") +
+            '</div></div>';
     }
 }
 
 function copyJsonLd() {
-    const codeEl = document.getElementById("jsonld-output");
+    var codeEl = document.getElementById("jsonld-output");
     if (!codeEl) return;
-    navigator.clipboard.writeText(codeEl.textContent).then(() => {
-        const btn = document.querySelector("[onclick='copyJsonLd()']");
+    navigator.clipboard.writeText(codeEl.textContent).then(function () {
+        var btn = document.querySelector("[onclick='copyJsonLd()']");
         if (btn) {
-            const original = btn.textContent;
+            var original = btn.textContent;
             btn.textContent = "Copied!";
-            setTimeout(() => (btn.textContent = original), 1500);
+            setTimeout(function () { btn.textContent = original; }, 1500);
         }
     });
 }
 
 function downloadJsonLd() {
-    const codeEl = document.getElementById("jsonld-output");
+    var codeEl = document.getElementById("jsonld-output");
     if (!codeEl) return;
-    const blob = new Blob([codeEl.textContent], { type: "application/ld+json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    var blob = new Blob([codeEl.textContent], { type: "application/ld+json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
     a.href = url;
     a.download = "dcat-ap.jsonld";
     a.click();

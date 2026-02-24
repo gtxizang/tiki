@@ -1,56 +1,63 @@
 /* Edit-in-place for empty DCAT-AP fields */
 
 function displayEmptyFields(data) {
-    const container = document.getElementById("empty-fields");
+    var container = document.getElementById("empty-fields");
+    var section = container ? container.closest(".empty-fields-section") : null;
     if (!container) return;
 
-    const emptyFields = data.empty_fields || [];
+    var emptyFields = data.empty_fields || [];
     if (emptyFields.length === 0) {
         container.innerHTML = "";
-        container.closest(".empty-fields")?.classList.remove("active");
+        if (section) section.classList.remove("active");
         return;
     }
 
-    container.closest(".empty-fields")?.classList.add("active");
+    if (section) section.classList.add("active");
 
-    const labels = {
+    var labels = {
         "dct:license": "License",
         "dct:publisher": "Publisher",
         "dcat:contactPoint": "Contact Point",
     };
 
     container.innerHTML = emptyFields
-        .map(
-            (field) => `
-        <div class="empty-field-row">
-            <label>${labels[field] || field}</label>
-            <input type="text" data-field="${field}" placeholder="Enter ${labels[field] || field}...">
-            <button onclick="saveField(this, '${field}')">Save</button>
-        </div>
-    `
-        )
+        .map(function (field) {
+            return '<div class="flex items-center gap-3 mb-3">' +
+                '<label class="text-sm font-medium min-w-36" style="color: var(--colour-text);">' +
+                (labels[field] || field) + '</label>' +
+                '<input type="text" data-field="' + field + '" ' +
+                'placeholder="Enter ' + (labels[field] || field) + '..." ' +
+                'class="flex-1 px-3 py-2 text-sm rounded border" ' +
+                'style="border-color: var(--colour-border); background: var(--colour-bg-secondary); color: var(--colour-text);">' +
+                '<button onclick="saveField(this, \'' + field + '\')" ' +
+                'class="px-4 py-2 text-sm font-medium text-white rounded transition-colors" ' +
+                'style="background: var(--colour-link);" ' +
+                'onmouseover="this.style.background=\'var(--colour-link-hover)\'" ' +
+                'onmouseout="this.style.background=\'var(--colour-link)\'">Save</button>' +
+                '</div>';
+        })
         .join("");
 }
 
 async function saveField(btn, fieldName) {
-    const input = btn.parentElement.querySelector("input");
-    const value = input.value.trim();
+    var input = btn.parentElement.querySelector("input");
+    var value = input.value.trim();
     if (!value) return;
 
-    const uploadId = window.tikiResult?.id;
+    var uploadId = window.tikiResult && window.tikiResult.id;
     if (!uploadId) return;
 
     btn.disabled = true;
     btn.textContent = "Saving...";
 
     try {
-        const response = await fetch(`/api/result/${uploadId}/edit/`, {
+        var response = await fetch("/api/result/" + uploadId + "/edit/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ field: fieldName, value }),
+            body: JSON.stringify({ field: fieldName, value: value }),
         });
 
-        const data = await response.json();
+        var data = await response.json();
 
         if (response.ok) {
             window.tikiResult.jsonld = data.jsonld;

@@ -1,26 +1,26 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const zone = document.getElementById("upload-zone");
-    const input = document.getElementById("file-input");
-    const progressBar = document.querySelector(".progress-bar");
-    const progressFill = document.querySelector(".progress-bar__fill");
-    const progressStatus = document.querySelector(".progress-bar__status");
-    const errorMessage = document.querySelector(".error-message");
-    const resultSection = document.querySelector(".result-section");
+document.addEventListener("DOMContentLoaded", function () {
+    var zone = document.getElementById("upload-zone");
+    var input = document.getElementById("file-input");
+    var progressBar = document.querySelector(".progress-bar");
+    var progressFill = document.querySelector(".progress-fill");
+    var progressStatus = document.querySelector(".progress-status");
+    var errorMessage = document.querySelector(".error-message");
+    var resultSection = document.querySelector(".result-section");
 
     if (!zone || !input) return;
 
-    zone.addEventListener("click", () => input.click());
+    zone.addEventListener("click", function () { input.click(); });
 
-    zone.addEventListener("dragover", (e) => {
+    zone.addEventListener("dragover", function (e) {
         e.preventDefault();
         zone.classList.add("dragover");
     });
 
-    zone.addEventListener("dragleave", () => {
+    zone.addEventListener("dragleave", function () {
         zone.classList.remove("dragover");
     });
 
-    zone.addEventListener("drop", (e) => {
+    zone.addEventListener("drop", function (e) {
         e.preventDefault();
         zone.classList.remove("dragover");
         if (e.dataTransfer.files.length > 0) {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    input.addEventListener("change", () => {
+    input.addEventListener("change", function () {
         if (input.files.length > 0) {
             uploadFile(input.files[0]);
         }
@@ -54,20 +54,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setProgress(10, "Uploading file...");
 
-        const formData = new FormData();
+        var formData = new FormData();
         formData.append("file", file);
 
         try {
             setProgress(30, "Extracting metadata with Tika...");
 
-            const response = await fetch("/api/enrich/", {
+            var response = await fetch("/api/enrich/", {
                 method: "POST",
                 body: formData,
             });
 
             setProgress(80, "Processing response...");
 
-            const data = await response.json();
+            var data = await response.json();
 
             if (!response.ok) {
                 showError(data.error || "Upload failed");

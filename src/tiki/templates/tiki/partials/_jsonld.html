@@ -1,12 +1,24 @@
-<div class="jsonld-section">
-    <div class="jsonld-header">
-        <h3>DCAT-AP JSON-LD</h3>
-        <div class="jsonld-actions">
-            <button class="btn" onclick="copyJsonLd()">Copy</button>
-            <button class="btn" onclick="downloadJsonLd()">Download</button>
+<div class="rounded-xl overflow-hidden"
+     style="background: var(--colour-card-bg); box-shadow: 0 1px 3px var(--colour-card-shadow);">
+    <div class="flex justify-between items-center px-6 py-4 border-b"
+         style="border-color: var(--colour-border);">
+        <h3 class="text-xs font-semibold uppercase tracking-wider"
+            style="color: var(--colour-text-muted);">DCAT-AP JSON-LD</h3>
+        <div class="flex gap-2">
+            <button onclick="copyJsonLd()"
+                    class="px-3 py-1 text-sm rounded border transition-colors"
+                    style="border-color: var(--colour-border); color: var(--colour-text); background: var(--colour-bg-secondary);">
+                Copy
+            </button>
+            <button onclick="downloadJsonLd()"
+                    class="px-3 py-1 text-sm rounded border transition-colors"
+                    style="border-color: var(--colour-border); color: var(--colour-text); background: var(--colour-bg-secondary);">
+                Download
+            </button>
         </div>
     </div>
-    <div class="jsonld-code">
-        <pre id="jsonld-output"></pre>
+    <div class="jsonld-code p-6 overflow-x-auto"
+         style="background: var(--colour-bg-secondary);">
+        <pre id="jsonld-output" style="color: var(--colour-text);"></pre>
     </div>
 </div>

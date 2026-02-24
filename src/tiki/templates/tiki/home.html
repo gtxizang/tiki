@@ -2,28 +2,34 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="header">
-        <h1>Tiki</h1>
-        <p>Upload a file to generate DCAT-AP metadata</p>
+<div class="max-w-3xl mx-auto px-4 py-10">
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold mb-2" style="color: var(--colour-text);">Tiki</h1>
+        <p style="color: var(--colour-text-muted);">Upload a file to generate DCAT-AP metadata</p>
     </div>
 
     {% include "tiki/partials/_upload_zone.html" %}
 
-    <div class="progress-bar">
-        <div class="progress-bar__track">
-            <div class="progress-bar__fill"></div>
+    <div class="progress-bar mt-6">
+        <div class="progress-track" style="background: var(--colour-bg-secondary);">
+            <div class="progress-fill"></div>
         </div>
-        <div class="progress-bar__status">Uploading...</div>
+        <p class="progress-status text-sm text-center mt-2" style="color: var(--colour-text-muted);">
+            Uploading...
+        </p>
     </div>
 
-    <div class="error-message"></div>
+    <div class="error-message mt-6 p-4 rounded-lg text-sm"
+         style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626;">
+    </div>
 
-    <div class="result-section">
+    <div class="result-section mt-8 space-y-6">
         {% include "tiki/partials/_summary.html" %}
 
-        <div class="empty-fields">
-            <h3>Required Fields</h3>
+        <div class="empty-fields-section rounded-xl p-6 border-l-4"
+             style="background: var(--colour-card-bg); box-shadow: 0 1px 3px var(--colour-card-shadow); border-left-color: var(--colour-link);">
+            <h3 class="text-xs font-semibold uppercase tracking-wider mb-4"
+                style="color: var(--colour-text-muted);">Required Fields</h3>
             <div id="empty-fields"></div>
         </div>
 

@@ -4,3 +4,4 @@ whitenoise>=6.5
 tika>=2.6
 anthropic>=0.40
 gunicorn>=22.0
+derilinx-labs-wrapper @ git+https://github.com/gtxizang/labs-wrapper.git
