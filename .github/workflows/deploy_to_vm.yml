@@ -50,7 +50,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             set -euo pipefail
-            cd /opt/apps/sunday
+            cd /opt/apps/tiki
 
             sudo bash -lc 'cat /etc/secrets/ghcr_pat | sudo docker login ghcr.io -u gtxizang --password-stdin'
 
